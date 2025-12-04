@@ -1,7 +1,11 @@
-from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
+from django.urls import path, include, re_path
+
 from django.http import HttpResponse
 from django.contrib import admin
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
+from django.views.static import serve
 
 
 def health_check(request):
@@ -19,4 +23,9 @@ urlpatterns = [
     path("api/v1/news/", include("apps.news.urls")),
     path("api/v1/contacts/", include("apps.contacts.urls")),
     path("api/v1/company/", include("apps.company.urls")),
+    path("api/v1/services/", include("apps.service_page.urls")),
+    path("api/v1/projects/", include("apps.projects.urls")),
+    re_path(r'^back_media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),
+    *static(settings.STATIC_URL, document_root=settings.STATIC_ROOT),
+
 ]
