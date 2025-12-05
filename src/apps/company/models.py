@@ -57,3 +57,25 @@ class Experts(BaseModel):
 
     def __str__(self):
         return self.name
+
+
+class CompanyPhoto(BaseModel):
+    image = models.ImageField(upload_to='company_photo/', verbose_name="Фотография")
+
+    class Meta(BaseModel.Meta):
+        verbose_name = "Фотография компании"
+        verbose_name_plural = "Фотография компании"
+
+
+class Documents(BaseModel):
+    title = models.CharField(max_length=100, verbose_name="Название документа")
+    description = models.TextField(max_length=150, verbose_name="Описание документа")
+    file_url = models.FileField(upload_to='company_documents/', verbose_name="Документ")
+
+    class Meta(BaseModel.Meta):
+        verbose_name = "Документ компании"
+        verbose_name_plural = "Документы компании"
+        ordering = ['-created_at']
+
+    def __str__(self) -> str:
+        return self.title

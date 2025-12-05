@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import CompanyBanner, CompanyInNumbers, CompanyValue, Experts
+from .models import CompanyBanner, CompanyInNumbers, CompanyPhoto, CompanyValue, Documents, Experts
 
 class CompanyBannerAdmin(admin.ModelAdmin):
     redirect_on_change = True
@@ -12,3 +12,5 @@ admin.site.register(CompanyBanner, CompanyBannerAdmin)
 admin.site.register(CompanyInNumbers)
 admin.site.register(CompanyValue)
 admin.site.register(Experts)
+admin.site.register(CompanyPhoto)
+admin.site.register(Documents)

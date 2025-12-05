@@ -19,3 +19,16 @@ class Contact(BaseModel):
 
     def __str__(self):
         return f"{self.phone_number} - {self.email}"
+
+
+class AcceptancePerson(BaseModel):
+    full_name = models.CharField(max_length=100, verbose_name="ФИО")
+    position = models.CharField(max_length=100, verbose_name="Должность")
+    photo = models.ImageField(upload_to='acceptance_persons/', verbose_name="Фотография")
+
+    class Meta(BaseModel.Meta):
+        verbose_name = "Принимающее лицо"
+        verbose_name_plural = "Принимающее лицо"
+
+    def __str__(self):
+        return self.full_name

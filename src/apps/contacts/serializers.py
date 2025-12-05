@@ -1,5 +1,7 @@
 from rest_framework import serializers
-from .models import Contact
+
+from common.serializers import AbsoluteImageUrlMixin
+from .models import Contact, AcceptancePerson
 
 
 class ContactSerializer(serializers.ModelSerializer):
@@ -12,3 +14,9 @@ class FeedbackSerializer(serializers.Serializer):
     name = serializers.CharField()
     phone = serializers.CharField()
     comment = serializers.CharField()
+
+
+class AcceptancePersonSerializer(AbsoluteImageUrlMixin, serializers.ModelSerializer):
+    class Meta:
+        model = AcceptancePerson
+        fields = ('id', 'full_name', 'position', 'photo')

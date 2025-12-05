@@ -6,8 +6,8 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from drf_spectacular.utils import extend_schema
 from threading import Thread
-from .models import Contact
-from .serializers import ContactSerializer, FeedbackSerializer
+from .models import Contact, AcceptancePerson
+from .serializers import AcceptancePersonSerializer, ContactSerializer, FeedbackSerializer
 from .services import send_feedback_email
 
 
@@ -50,3 +50,12 @@ class FeedbackView(GenericAPIView):
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+class AcceptancePersonView(APIView):
+    serializer_class = AcceptancePersonSerializer
+
+    def get(self, request):
+        obj = AcceptancePerson.objects.last()
+        serializer =AcceptancePersonSerializer(obj, context={'request': request})
+        return Response(serializer.data if obj else None)

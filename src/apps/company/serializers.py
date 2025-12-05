@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import CompanyBanner, CompanyInNumbers, CompanyValue, Experts
+from .models import CompanyBanner, CompanyInNumbers, CompanyValue, Documents, Experts, CompanyPhoto
 
 
 class CompanyBannerSerializer(serializers.ModelSerializer):
@@ -24,3 +24,15 @@ class ExpertsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Experts
         fields = ('id', 'name', 'photo', 'experience', 'position')
+
+
+class CompanyPhotoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CompanyPhoto
+        fields = ('id', 'image')
+
+
+class DocumentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Documents
+        fields = ('id', 'title', 'description', 'file_url')
