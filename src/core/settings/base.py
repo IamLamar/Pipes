@@ -16,13 +16,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 SECRET_KEY = os.getenv("SECRET_KEY")
 DEBUG = os.getenv("DEBUG") == "True"
 PROD = os.getenv("PROD") == "True"
+ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS").split(",")
 
-ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
-
-# Render автоматически добавляет домен
-render_host = os.getenv("RENDER_EXTERNAL_HOSTNAME")
-if render_host:
-    ALLOWED_HOSTS.append(render_host)
 
 JAZZMIN_SETTINGS = JAZZMIN_SETTINGS
 JAZZMIN_UI = JAZZMIN_UI_TWEAKS
@@ -111,17 +106,19 @@ warnings.filterwarnings(
     category=UserWarning,
 )
 
-# ---- STATIC & MEDIA ----
-STATIC_URL = "/static/"
-STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+STATIC_URL = "/back_static/"
+STATIC_ROOT = os.path.join(BASE_DIR, "back_static")
 
-# Render НЕ сохраняет MEDIA. Можно так:
-MEDIA_URL = "/media/"
-MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
+MEDIA_URL = "/back_media/"
+MEDIA_ROOT = os.path.join(BASE_DIR, "back_media")
+
 
 REST_FRAMEWORK = {
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
-    "DEFAULT_FILTER_BACKENDS": ["django_filters.rest_framework.DjangoFilterBackend"],
+    'DEFAULT_FILTER_BACKENDS': [
+        'django_filters.rest_framework.DjangoFilterBackend'
+    ]
 }
 
 # Email

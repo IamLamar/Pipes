@@ -19,14 +19,5 @@ CORS_ALLOW_HEADERS = [
 ]
 
 CORS_ALLOWED_ORIGINS = os.getenv("CORS_ALLOWED_ORIGINS", "").split(",")
-
-# Render URL
-render_host = os.getenv("RENDER_EXTERNAL_HOSTNAME")
-if render_host:
-    CORS_ALLOWED_ORIGINS.append(f"https://{render_host}")
-
 CORS_ALLOW_CREDENTIALS = True
-
 CSRF_TRUSTED_ORIGINS = os.getenv("CSRF_TRUSTED_ORIGINS", "").split(",")
-if render_host:
-    CSRF_TRUSTED_ORIGINS.append(f"https://{render_host}")
