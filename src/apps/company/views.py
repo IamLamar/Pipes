@@ -9,7 +9,7 @@ class CompanyBannerSingleView(APIView):
     serializer_class = CompanyBannerSerializer
 
     def get(self, request):
-        obj = CompanyBanner().objects.last()
+        obj = CompanyBanner.objects.last()
         serializer =CompanyBannerSerializer(obj, context={'request': request})
         return Response(serializer.data if obj else None)
 

@@ -1,18 +1,28 @@
 from django.db import models
-
+from django.core.exceptions import ValidationError
 from common.model import BaseModel
 
 
 class CompanyBanner(BaseModel):
-    title = models.CharField(max_length=255)
-    description = models.TextField()
-    image = models.ImageField(upload_to='company_banners/')
-    video = models.FileField(upload_to='company_videos/', null=True, blank=True)
+    title = models.CharField(max_length=255, verbose_name="Заголовок")
+    description = models.TextField(verbose_name="Описание")
+    image = models.ImageField(upload_to='company_banners/', verbose_name="Изображение")
+    video_url = models.FileField(upload_to='company_videos/', null=True, blank=True, verbose_name="Ссылка на видео")
+    video_file = models.FileField(upload_to="videos/", verbose_name="Видео файл", blank=True, null=True)
+
 
     class Meta(BaseModel.Meta):
         verbose_name = "Баннер компании"
         verbose_name_plural = "Баннер компании"
         ordering = ['-created_at']
+
+    def clean(self):
+        if not self.video_url and not self.video_file:
+            raise ValidationError("Нужно указать ссылку на видео или загрузить файл")
+
+        if self.video_url and self.video_file:
+            raise ValidationError("Можно указать только одно: ссылку или файл")
+
 
     def __str__(self):
         return self.title

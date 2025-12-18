@@ -1,5 +1,6 @@
 from django.db import models
 from common.model import BaseModel
+from django.core.exceptions import ValidationError
 
 
 class Banner(BaseModel):
@@ -15,8 +16,10 @@ class Banner(BaseModel):
     def __str__(self):
         return self.title
 
+
 class VideoSection(BaseModel):
-    video_url = models.URLField(verbose_name="URL видео")
+    video_url = models.URLField(verbose_name="URL видео", blank=True, null=True)
+    video_file = models.FileField(upload_to="videos/", verbose_name="Видео файл", blank=True, null=True)
     title = models.CharField(max_length=100, verbose_name="Заголовок")
     description = models.TextField(verbose_name="Описание", max_length=100)
     date = models.CharField(max_length=100, verbose_name="Дата")
@@ -25,6 +28,14 @@ class VideoSection(BaseModel):
         verbose_name = "Видео секция"
         verbose_name_plural = "Видео секции"
         ordering = ['-created_at']
+
+    def clean(self):
+        if not self.video_url and not self.video_file:
+            raise ValidationError("Нужно указать ссылку на видео или загрузить файл")
+
+        if self.video_url and self.video_file:
+            raise ValidationError("Можно указать только одно: ссылку или файл")
+
 
     def __str__(self):
         return self.title
